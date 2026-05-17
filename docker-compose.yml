@@ -1,0 +1,65 @@
+services:
+  api1:
+    build: .
+    hostname: api1
+    environment:
+      ERL_FLAGS: "+S 1:1"
+      SOCKET: /sockets/api1.sock
+    deploy:
+      resources:
+        limits:
+          cpus: "0.45"
+          memory: "155M"
+    volumes:
+      - sockets:/sockets
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    security_opt:
+      - seccomp:unconfined
+
+  api2:
+    build: .
+    hostname: api2
+    environment:
+      ERL_FLAGS: "+S 1:1"
+      SOCKET: /sockets/api2.sock
+    deploy:
+      resources:
+        limits:
+          cpus: "0.45"
+          memory: "155M"
+    volumes:
+      - sockets:/sockets
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    security_opt:
+      - seccomp:unconfined
+
+  lb:
+    image: haproxy:3.1-alpine
+    ports:
+      - "9999:9999"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - sockets:/sockets
+    depends_on:
+      - api1
+      - api2
+    deploy:
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: "40M"
+    ulimits:
+      nofile:
+        soft: 65535
+        hard: 65535
+    security_opt:
+      - seccomp:unconfined
+
+volumes:
+  sockets:

@@ -1,0 +1,5 @@
+_deps
+_build
+.git
+.gitignore
+*.log
