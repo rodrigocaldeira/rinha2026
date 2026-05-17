@@ -1,10 +1,15 @@
 services:
   api1:
-    image: rodscaldeira/rinha2026:0.0.2
+    image: rodscaldeira/rinha2026:0.0.3
     hostname: api1
     environment:
       ERL_FLAGS: "+S 1:1"
       SOCKET: /sockets/api1.sock
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf --unix-socket /sockets/api1.sock http://localhost/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     deploy:
       resources:
         limits:
@@ -18,11 +23,16 @@ services:
         hard: 65535
 
   api2:
-    image: rodscaldeira/rinha2026:0.0.2
+    image: rodscaldeira/rinha2026:0.0.3
     hostname: api2
     environment:
       ERL_FLAGS: "+S 1:1"
       SOCKET: /sockets/api2.sock
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf --unix-socket /sockets/api2.sock http://localhost/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     deploy:
       resources:
         limits:
@@ -43,8 +53,10 @@ services:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
       - sockets:/sockets
     depends_on:
-      - api1
-      - api2
+      api1:
+        condition: service_healthy
+      api2:
+        condition: service_healthy
     deploy:
       resources:
         limits:
