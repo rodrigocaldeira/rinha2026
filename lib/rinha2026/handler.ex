@@ -30,9 +30,9 @@ defmodule Rinha2026.Handler do
 
         result =
           if score < 0.6 do
-            ~s[{"approved": true, "score": #{score}}]
+            ~s[{"approved": true, "fraud_score": #{score}}]
           else
-            ~s[{"approved": false, "score": #{score}}]
+            ~s[{"approved": false, "fraud_score": #{score}}]
           end
 
         req = :cowboy_req.reply(200, %{"content-type" => "application/json"}, result, req)
