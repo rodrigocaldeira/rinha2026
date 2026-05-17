@@ -39,7 +39,7 @@ defmodule Rinha2026 do
              http_config,
              %{
                env: %{dispatch: dispatch},
-               max_connections: 16384,
+               max_connections: 2048,
                request_timeout: 5_000,
                inactivity_timeout: 5_000
              }
@@ -53,9 +53,7 @@ defmodule Rinha2026 do
   defp get_http_config do
     socket_opts = [
       {:nodelay, true},
-      {:backlog, 8192},
-      {:sndbuf, 1_048_576},
-      {:recbuf, 1_048_576}
+      {:backlog, 2048}
     ]
 
     case Application.fetch_env!(:rinha_2026, :env) do

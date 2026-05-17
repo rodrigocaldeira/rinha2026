@@ -45,6 +45,7 @@ RUN apt-get update && \
       openssl \
       ncurses-bin \
       locales \
+      curl \
     && rm -rf /var/lib/apt/lists/*
 
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
