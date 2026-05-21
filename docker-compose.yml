@@ -3,7 +3,6 @@ services:
     image: rodscaldeira/rinha2026:0.0.4
     hostname: api1
     environment:
-      ERL_FLAGS: "+S 1:1 +sbwt very_short +sbwtdcpu none +sbwtdio none +A 4 +hms 256 +hmbs 4096 +K true +scl false"
       SOCKET: /sockets/api1.sock
     healthcheck:
       test: ["CMD-SHELL", "curl -sf --unix-socket /sockets/api1.sock http://localhost/ready || exit 1"]
@@ -26,7 +25,6 @@ services:
     image: rodscaldeira/rinha2026:0.0.4
     hostname: api2
     environment:
-      ERL_FLAGS: "+S 1:1 +sbwt very_short +sbwtdcpu none +sbwtdio none +A 4 +hms 256 +hmbs 4096 +K true +scl false"
       SOCKET: /sockets/api2.sock
     healthcheck:
       test: ["CMD-SHELL", "curl -sf --unix-socket /sockets/api2.sock http://localhost/ready || exit 1"]
