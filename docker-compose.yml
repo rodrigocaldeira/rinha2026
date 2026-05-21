@@ -1,10 +1,9 @@
 services:
   api1:
-    image: rodscaldeira/rinha2026:0.0.3
-    cpuset: "0"
+    image: rodscaldeira/rinha2026:0.0.4
     hostname: api1
     environment:
-      ERL_FLAGS: "+S 1:1"
+      ERL_FLAGS: "+S 1:1 +sbwt very_short +sbwtdcpu none +sbwtdio none +A 4 +hms 256 +hmbs 4096 +K true +scl false"
       SOCKET: /sockets/api1.sock
     healthcheck:
       test: ["CMD-SHELL", "curl -sf --unix-socket /sockets/api1.sock http://localhost/ready || exit 1"]
@@ -24,11 +23,10 @@ services:
         hard: 65535
 
   api2:
-    image: rodscaldeira/rinha2026:0.0.3
-    cpuset: "2"
+    image: rodscaldeira/rinha2026:0.0.4
     hostname: api2
     environment:
-      ERL_FLAGS: "+S 1:1"
+      ERL_FLAGS: "+S 1:1 +sbwt very_short +sbwtdcpu none +sbwtdio none +A 4 +hms 256 +hmbs 4096 +K true +scl false"
       SOCKET: /sockets/api2.sock
     healthcheck:
       test: ["CMD-SHELL", "curl -sf --unix-socket /sockets/api2.sock http://localhost/ready || exit 1"]
@@ -49,7 +47,6 @@ services:
 
   lb:
     image: haproxy:3.1-alpine
-    cpuset: "1-3"
     ports:
       - "9999:9999"
     volumes:
