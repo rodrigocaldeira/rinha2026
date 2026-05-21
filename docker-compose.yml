@@ -1,6 +1,6 @@
 services:
   api1:
-    image: rodscaldeira/rinha2026:0.0.4
+    image: rodscaldeira/rinha2026:0.0.5
     hostname: api1
     environment:
       SOCKET: /sockets/api1.sock
@@ -22,7 +22,7 @@ services:
         hard: 65535
 
   api2:
-    image: rodscaldeira/rinha2026:0.0.4
+    image: rodscaldeira/rinha2026:0.0.5
     hostname: api2
     environment:
       SOCKET: /sockets/api2.sock
