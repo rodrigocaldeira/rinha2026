@@ -1,9 +1,8 @@
 ARG ELIXIR_VERSION=1.18.4
 ARG OTP_VERSION=28.0.1
-ARG DEBIAN_VERSION=bookworm-20250630
 
-ARG BUILDER_IMAGE="hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
-ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
+ARG BUILDER_IMAGE="hexpm/elixir:1.18.4-erlang-28.0.1-debian-bookworm-20250630"
+ARG RUNNER_IMAGE="debian:bookworm-slim"
 
 FROM ${BUILDER_IMAGE} AS builder
 
@@ -58,7 +57,6 @@ WORKDIR /app
 
 ENV HOME=/app
 ENV MIX_ENV=prod
-ENV ERL_FLAGS="+S 1:1"
 
 COPY --from=builder /app/_build/prod/rel/rinha_2026 ./
 
